@@ -11,7 +11,7 @@ const AuthContextProvider = (props) => {
   };
 
   const logoutHandler = () => {
-    setToken(token);
+    setToken(null);
   };
 
   const authContext = {
