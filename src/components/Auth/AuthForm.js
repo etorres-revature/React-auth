@@ -21,34 +21,43 @@ const AuthForm = () => {
     //optional: validation here ...
 
     setIsLoading(true);
-
+    let url;
     if (isLogin) {
+      url = "loginURLGoesHere...";
     } else {
-      fetch("authURLGoesHere...", {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
+      url = "authURLGoesHere...";
+    }
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
         setIsLoading(false);
         if (res.ok) {
-          //...
+          return res.json();
         } else {
           return res.json().then((data) => {
             let errorMessage = "authentication failed";
             if (data && data.error && data.error.message) {
               errorMessage = data.error.message;
             }
-            alert(errorMessage);
+            throw new Error(errorMessage);
           });
         }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        alert(errorMessage);
       });
-    }
   };
 
   return (
